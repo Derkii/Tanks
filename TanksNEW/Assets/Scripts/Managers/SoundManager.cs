@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Managers
 {
-    [RequireComponent(typeof(AudioSource))]
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager instance;
