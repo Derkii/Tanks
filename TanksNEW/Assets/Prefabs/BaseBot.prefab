@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8130d41aca3343347b394980cb32817b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 3470296379726089132, guid: 8b347c1d1f5283c47949e4371c18cdb7, type: 3}
+  _projectilePrefab: {fileID: 3470296379726089132, guid: 8b347c1d1f5283c47949e4371c18cdb7, type: 3}
   _fireDelay: 0.5
   _side: 2
 --- !u!114 &1461300646519580225
@@ -247,7 +247,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c49fc3f2861f434c9dd68a40a68b880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1
 --- !u!114 &7666177760849505137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,8 +261,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 8109974335807197847}
   _startPosition: {fileID: 2690585112938368681}
-  _maxVelocity: 15
-  _maxSpeed: 1
-  _rotationTime: 0.5
   _minTime: 0.3
   _maxTime: 2

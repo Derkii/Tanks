@@ -57,32 +57,16 @@ namespace Bot
                 else if (
                     hit.transform.TryGetComponent(out FrameOfTileMap _)
                     || hit.transform.TryGetComponent(out Water _)
+                    || hit.transform.TryGetComponent(out Player _)
                     || (hit.transform.TryGetComponent(out BotComponent _) && iteration > 1))
                 {
                     ChangeDirection();
                     break;
                 }
-                else if (hit.transform.TryGetComponent(out Player player))
-                {
-                    DoAwaitableActions
-                    (
-                        () => _fireComponent.Fire(),
-                        () => ChangeDirection()
-                    );
-                }
             }
 
             _moveComponent.Move(_dirType);
         }
-
-        public async UniTaskVoid DoAwaitableActions(params Func<UniTask>[] actions)
-        {
-            foreach (var action in actions)
-            {
-                await action.Invoke();
-            }
-        }
-
         private async UniTask ChangeDirection(float delay)
         {
             if (_wait == false)

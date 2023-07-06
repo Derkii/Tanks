@@ -8,9 +8,9 @@ namespace Components.Health
     {
         private int _startHealth;
         private bool _played;
-        private int _health = 5;
-        public int Healh => _health;
-        public int StartHealh => _startHealth;
+        private int _health;
+        public int Health => _health;
+        public int StartHealth => _startHealth;
 
         private void Start()
         {
@@ -24,7 +24,6 @@ namespace Components.Health
             if (_health <= 0)
             {
                 var losable = GetComponent<ILosable>();
-                Debug.Log(Healh);
                 losable.Lose();
             }
         }

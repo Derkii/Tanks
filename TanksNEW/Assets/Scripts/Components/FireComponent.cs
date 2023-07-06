@@ -3,12 +3,13 @@ using Cysharp.Threading.Tasks;
 using Managers;
 using Projectile;
 using UnityEngine;
+using static NTC.Global.Pool.NightPool;
 
 namespace Components
 {
     public class FireComponent : MonoBehaviour
     {
-        [SerializeField] private ProjectileComponent _bulletPrefab;
+        [SerializeField] private ProjectileComponent _projectilePrefab;
         [SerializeField] private float _fireDelay;
         [SerializeField] private SideType _side;
         public SideType Side => _side;
@@ -18,7 +19,7 @@ namespace Components
         {
             if (check && _canFire == false) return;
             _canFire = false;
-            var projectile = Instantiate(_bulletPrefab, transform.position, transform.rotation);
+            var projectile = Spawn(_projectilePrefab, transform.position, transform.rotation);
             var dirType = transform.eulerAngles.ConvertRotationFromType();
 
             projectile.Init(dirType, _side);

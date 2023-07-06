@@ -2,6 +2,7 @@
 using Components.Health;
 using Managers;
 using UnityEngine;
+using static NTC.Global.Pool.NightPool;
 
 namespace Projectile
 {
@@ -41,7 +42,7 @@ namespace Projectile
                 SoundManager.instance.Play(SoundManager.SoundType.ProjectileCollision);
                 var health = collision.GetComponent<HealthComponent>();
                 health.Damage(_damage);
-                Destroy(gameObject);
+                Despawn(gameObject);
             }
 
             else if (collision.TryGetComponent(out CellComponent cellComponent))
@@ -54,14 +55,14 @@ namespace Projectile
 
                 if (cellComponent.DestroyProjectile)
                 {
-                    Destroy(gameObject);
+                    Despawn(gameObject);
                 }
             }
 
             else if (collision.transform.TryGetComponent(out FrameOfTileMap _))
             {
                 SoundManager.instance.Play(SoundManager.SoundType.ProjectileCollision);
-                Destroy(gameObject);
+                Despawn(gameObject);
             }
         }
     }

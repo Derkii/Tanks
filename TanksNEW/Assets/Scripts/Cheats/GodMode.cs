@@ -47,11 +47,15 @@ namespace Cheats
         {
             if (IsActive == turn) return;
             IsActive = turn;
-            if (!turn)
+            if (turn)
+            {
+                _cancellationTokenSource = new CancellationTokenSource();
+            }
+            else
             {
                 _cancellationTokenSource.Cancel();
                 _spriteRenderer.color = _startColor;
-                _health.SetHealth(_health.StartHealh);
+                _health.SetHealth(_health.StartHealth);
                 SoundManager.instance.Play(SoundManager.SoundType.GodMode);
                 return;
             }
@@ -60,6 +64,7 @@ namespace Cheats
             {
                 if (_cancellationTokenSource.Token.IsCancellationRequested)
                 {
+                    _cancellationTokenSource.Dispose();
                     break;
                 }
 

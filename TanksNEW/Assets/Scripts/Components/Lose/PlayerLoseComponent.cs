@@ -26,7 +26,7 @@ namespace Components.Lose
 
         public async UniTaskVoid Lose()
         {
-            _healthComponent.SetHealth(_healthComponent.StartHealh);
+            _healthComponent.SetHealth(_healthComponent.StartHealth);
             _godMode.Turn(true);
             await UniTask.Delay(
                 TimeSpan.FromSeconds(SoundManager.instance.GetAudioLength(SoundManager.SoundType.DestroyPlayerTank)));

@@ -423,7 +423,7 @@ MonoBehaviour:
   _leaveFromGameSceneSound: {fileID: 8300000, guid: dfe24039f437e08469592b19111614ed, type: 3}
   _playerTankMovingSound: {fileID: 8300000, guid: bad974a2b9ddb074282a8f67c00e94af, type: 3}
   _playerTankCollisionWithBlockSound: {fileID: 8300000, guid: 00f85292b170b9a47a512fb231830d03, type: 3}
-  _pressEscapeSound: {fileID: 8300000, guid: cd13ae873b8f1b943922de98394c271d, type: 3}
+  _pressEscapeSound: {fileID: 8300000, guid: 260f39eaf712a87408c1713b8ecb66d4, type: 3}
   _shootSound: {fileID: 8300000, guid: d4a9be9937bc7514fb0a5b9329a1070c, type: 3}
   _godModeSound: {fileID: 8300000, guid: 493f0624e32edbe4184bafccad768477, type: 3}
 --- !u!4 &55490311
@@ -20943,6 +20943,10 @@ PrefabInstance:
       propertyPath: _fireDelay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8010794843140236418, guid: d311d34d80a0e9549bb861aa1422e429, type: 3}
+      propertyPath: _projectilePrefab
+      value: 
+      objectReference: {fileID: 3470296379726089132, guid: 8b347c1d1f5283c47949e4371c18cdb7, type: 3}
     - target: {fileID: 8813861151780084511, guid: d311d34d80a0e9549bb861aa1422e429, type: 3}
       propertyPath: _flashingDelay
       value: 0.2
