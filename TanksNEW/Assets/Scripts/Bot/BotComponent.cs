@@ -12,13 +12,13 @@ namespace Bot
     [RequireComponent(typeof(MoveComponent), typeof(FireComponent), typeof(HealthComponent))]
     public class BotComponent : MonoBehaviour
     {
-        private DirectionType _dirType;
-        public HealthComponent health;
+        [SerializeField] private float _minTime, _maxTime;
         [SerializeField] private Transform _startPosition;
+        private DirectionType _dirType;
+        public HealthComponent Health;
         private FireComponent _fireComponent;
         private MoveComponent _moveComponent;
         private Vector3 velocity;
-        [SerializeField] private float _minTime, _maxTime;
         private bool _wait;
 
         private void Start()

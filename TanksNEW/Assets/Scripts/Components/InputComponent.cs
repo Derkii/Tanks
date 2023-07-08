@@ -1,6 +1,7 @@
 ﻿using Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using VContainer;
 
 namespace Components
 {
@@ -15,6 +16,8 @@ namespace Components
         private DirectionType _lastDir;
         private DirectionType _currentDirection;
         private bool _collision;
+        [Inject]
+        private SoundManager _soundManager;
 
         private void Start()
         {
@@ -27,7 +30,7 @@ namespace Components
         {
             if (_collision)
             {
-                SoundManager.instance.Play(SoundManager.SoundType.PlayerTankCollisionWithBlock);
+               _soundManager.Play(SoundManager.SoundType.PlayerTankCollisionWithBlock);
             }
             _moveComponent.Move(_currentDirection);
         }
@@ -54,7 +57,7 @@ namespace Components
                 _lastDir = _currentDirection;
                 if (_collision == false)
                 {
-                    SoundManager.instance.Play(SoundManager.SoundType.PlayerTankMoving);
+                    _soundManager.Play(SoundManager.SoundType.PlayerTankMoving);
                 }
             }
         }

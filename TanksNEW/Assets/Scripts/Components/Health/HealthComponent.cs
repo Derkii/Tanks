@@ -20,7 +20,6 @@ namespace Components.Health
         public void Damage(int damage)
         {
             _health -= damage;
-            Debug.Log(_health);
             if (_health <= 0)
             {
                 var losable = GetComponent<ILosable>();

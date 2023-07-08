@@ -28,7 +28,7 @@ namespace Managers
             {
                 var audioSource = _audioSources.FirstOrDefault(t => t.isPlaying == false);
                 
-                return  audioSource == null ? _audioSources[0] : audioSource;
+                return audioSource == null ? _audioSources[0] : audioSource;
             }
         }
 
@@ -98,7 +98,7 @@ namespace Managers
         public float GetAudioLength(SoundType type)
         {
             if (type == SoundType.None) return 0f;
-            if (_audioSource != null)
+            if (_audioSources.FirstOrDefault(t => t.clip is not null && t.clip == _sounds[type]) is not null)
             {
                 return _audioSource.clip.length;
             }

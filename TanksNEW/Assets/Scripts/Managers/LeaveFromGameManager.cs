@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer;
 
 namespace Managers
 {
@@ -11,7 +12,7 @@ namespace Managers
         private float _timer;
         private static LeaveFromGameManager _instance;
         private bool _isLeft;
-
+        [Inject] private SoundManager _soundManager;
         private void Start()
         {
             _timer = _timeToExitToPauseGameMenu;
@@ -23,7 +24,7 @@ namespace Managers
             if (_isLeft) return;
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                SoundManager.instance.Play(SoundManager.SoundType.PressESC);
+                _soundManager.Play(SoundManager.SoundType.PressESC);
             }
             if (Input.GetKey(KeyCode.Escape))
             {
@@ -35,20 +36,14 @@ namespace Managers
             }
             if (_timer <= 0f)
             {
-                SoundManager.instance.StartCoroutine(QuitCoroutine());
+                _soundManager.StartCoroutine(QuitCoroutine());
             }
         }
-
-        public static void Quit()
-        {
-            SoundManager.instance.StartCoroutine(QuitCoroutine());
-        }
-
-        private static IEnumerator QuitCoroutine()
+        private IEnumerator QuitCoroutine()
         {
             _instance._isLeft = true;
-            SoundManager.instance.Play(SoundManager.SoundType.LeaveFromGame);
-            yield return new WaitForSeconds(SoundManager.instance.GetAudioLength(SoundManager.SoundType.LeaveFromGame));
+            _soundManager.Play(SoundManager.SoundType.LeaveFromGame);
+            yield return new WaitForSeconds(_soundManager.GetAudioLength(SoundManager.SoundType.LeaveFromGame));
             SceneManager.LoadScene("MainMenu");
         }
     }

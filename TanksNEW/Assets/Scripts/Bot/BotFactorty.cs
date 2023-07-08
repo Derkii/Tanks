@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Components;
 using Components.Health;
 using Cysharp.Threading.Tasks;
 using Game.Settings;
 using UnityEngine;
-using UnityEngine.Serialization;
+using VContainer;
+using VContainer.Unity;
 using Random = UnityEngine.Random;
 
 namespace Bot
@@ -32,7 +32,7 @@ namespace Bot
         private int _startBotsHealth;
         public List<BotComponent> AllCreatedBots { get; } = new();
         private CancellationTokenSource _cancellationToken;
-
+        [Inject] private IObjectResolver _resolver;
         private void OnDrawGizmos()
         {
             if (!_drawGizmoz) return;
@@ -97,9 +97,10 @@ namespace Bot
                     _currentSpawnPoint = spawnPoint;
                     var bot = _botsPrefab[Random.Range(0, _botsPrefab.Count)];
                     var createdBot = Instantiate(bot, spawnPoint.transform.position, Quaternion.identity, transform);
+                    _resolver.InjectGameObject(createdBot.gameObject);
                     AllCreatedBots.Add(createdBot);
                     _spawnTimer = _delayBetweenSpawn;
-                    createdBot.health.SetHealth(_startBotsHealth);
+                    createdBot.Health.SetHealth(_startBotsHealth);
                 }
 
                 await UniTask.Yield();

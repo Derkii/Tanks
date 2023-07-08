@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5a368611ce56ad4aaed055848a702b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 8109974335807197847}
-  _startPosition: {fileID: 2690585112938368681}
   _minTime: 0.3
   _maxTime: 2
+  _startPosition: {fileID: 2690585112938368681}
+  Health: {fileID: 8109974335807197847}

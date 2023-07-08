@@ -3,7 +3,8 @@ using Cysharp.Threading.Tasks;
 using Managers;
 using Projectile;
 using UnityEngine;
-using static NTC.Global.Pool.NightPool;
+using Lean.Pool;
+using VContainer;
 
 namespace Components
 {
@@ -14,16 +15,19 @@ namespace Components
         [SerializeField] private SideType _side;
         public SideType Side => _side;
         private bool _canFire = true;
+        [Inject] private SoundManager _soundManager;
+
+        [Inject] private IObjectResolver _resolver;
 
         public async UniTask Fire(bool check = true)
         {
             if (check && _canFire == false) return;
             _canFire = false;
-            var projectile = Spawn(_projectilePrefab, transform.position, transform.rotation);
+            var projectile = LeanPool.Spawn(_projectilePrefab, transform.position, transform.rotation);
             var dirType = transform.eulerAngles.ConvertRotationFromType();
-
             projectile.Init(dirType, _side);
-            SoundManager.instance.Play(SoundManager.SoundType.Shoot);
+            _resolver.Inject(projectile);
+            _soundManager.Play(SoundManager.SoundType.Shoot);
             await UniTask.Delay(TimeSpan.FromSeconds(_fireDelay));
             _canFire = true;
         }
