@@ -98,7 +98,7 @@ namespace Managers
         public float GetAudioLength(SoundType type)
         {
             if (type == SoundType.None) return 0f;
-            if (_audioSources.FirstOrDefault(t => t.clip != null && t.clip == _sounds[type]) != null)
+            if (_audioSources.FirstOrDefault(t => t.clip is not null && t.clip == _sounds[type]) is not null)
             {
                 return _audioSource.clip.length;
             }
