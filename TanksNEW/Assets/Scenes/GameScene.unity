@@ -20720,7 +20720,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2049498016}
   - component: {fileID: 2049498017}
-  - component: {fileID: 2049498018}
   m_Layer: 0
   m_Name: VContainer
   m_TagString: Untagged
@@ -20761,24 +20760,8 @@ MonoBehaviour:
   autoInjectGameObjects:
   - {fileID: 1661166915}
   - {fileID: 1459694259}
-  _soundManager: {fileID: 55490310}
---- !u!114 &2049498018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049498014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2c62ac3bcd44fb9e09835581422057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentReference:
-    TypeName: Installers.SoundManagerInstaller
-  autoRun: 1
-  autoInjectGameObjects:
   - {fileID: 2066569257}
+  _soundManager: {fileID: 55490310}
 --- !u!1001 &2060178819
 PrefabInstance:
   m_ObjectHideFlags: 0
