@@ -8,10 +8,24 @@ namespace Managers
 {
     public class SoundManager : MonoBehaviour
     {
+        public enum SoundType
+        {
+            None,
+            ProjectileCollision,
+            DestroyPlayerTank,
+            DestroyBotTank,
+            LeaveFromGame,
+            PlayerTankMoving,
+            PlayerTankCollisionWithBlock,
+            PressESC,
+            Shoot,
+            GodMode
+        }
+
         public static SoundManager instance;
 
-        [SerializeField]
-        private AudioSource[] _audioSources;
+        [SerializeField] private AudioSource[] _audioSources;
+
         [SerializeField] private AudioClip _projectileCollisionSound,
             _playerTankDestroySound,
             _enemyTankDestroySound,
@@ -21,13 +35,15 @@ namespace Managers
             _pressEscapeSound,
             _shootSound,
             _godModeSound;
+
         private Dictionary<SoundType, AudioClip> _sounds;
+
         private AudioSource _audioSource
         {
             get
             {
                 var audioSource = _audioSources.FirstOrDefault(t => t.isPlaying == false);
-                
+
                 return audioSource == null ? _audioSources[0] : audioSource;
             }
         }
@@ -35,7 +51,7 @@ namespace Managers
         private void Awake()
         {
             instance = this;
-            _sounds = new Dictionary<SoundType, AudioClip>()
+            _sounds = new Dictionary<SoundType, AudioClip>
             {
                 {
                     SoundType.ProjectileCollision, _projectileCollisionSound
@@ -65,9 +81,9 @@ namespace Managers
                     SoundType.GodMode, _godModeSound
                 }
             };
-            int length = 6;
+            var length = 6;
             _audioSources = new AudioSource[length];
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 var audioSource = gameObject.AddComponent<AudioSource>();
                 _audioSources[i] = audioSource;
@@ -80,12 +96,10 @@ namespace Managers
         public void Play(SoundType type)
         {
             if (type == SoundType.None) throw new NotImplementedException();
-            
+
             if (type == SoundType.PlayerTankMoving || type == SoundType.PlayerTankCollisionWithBlock)
-            {
                 _audioSource.volume = GameSettings.Settings.Volume / 3f;
-            }
-            
+
             Play(_sounds[type]);
         }
 
@@ -99,25 +113,9 @@ namespace Managers
         {
             if (type == SoundType.None) return 0f;
             if (_audioSources.FirstOrDefault(t => t.clip is not null && t.clip == _sounds[type]) is not null)
-            {
                 return _audioSource.clip.length;
-            }
 
             return 0f;
-        }
-
-        public enum SoundType
-        {
-            None,
-            ProjectileCollision,
-            DestroyPlayerTank,
-            DestroyBotTank,
-            LeaveFromGame,
-            PlayerTankMoving,
-            PlayerTankCollisionWithBlock,
-            PressESC,
-            Shoot,
-            GodMode
         }
     }
 }

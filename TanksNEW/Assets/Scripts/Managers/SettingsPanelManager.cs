@@ -7,12 +7,11 @@ namespace Managers
 {
     public class SettingsPanelManager : MonoBehaviour
     {
-        [SerializeField]
-        private Slider _botHealthSlider, _playerHealthSlider, _soundVolumeSlider, _maxBotsCountSlider;
-        [SerializeField]
-        private Button _quitFromSettings;
-        [SerializeField]
-        private TextMeshProUGUI _botHealthText, _playerHealthText, _soundVolumeText, _maxBotsCountText;
+        [SerializeField] private Slider _botHealthSlider, _playerHealthSlider, _soundVolumeSlider, _maxBotsCountSlider;
+
+        [SerializeField] private Button _quitFromSettings;
+
+        [SerializeField] private TextMeshProUGUI _botHealthText, _playerHealthText, _soundVolumeText, _maxBotsCountText;
 
         private void Start()
         {
@@ -21,13 +20,14 @@ namespace Managers
             _maxBotsCountSlider.value = GameSettings.Settings.MaxBotsCount;
             _soundVolumeSlider.value = GameSettings.Settings.Volume;
 
-            _botHealthSlider.onValueChanged.AddListener((float value) => GameSettings.Settings.BotHealth = (int)value);
-            _playerHealthSlider.onValueChanged.AddListener((float value) => GameSettings.Settings.PlayerHealth = (int)value);
-            _soundVolumeSlider.onValueChanged.AddListener((float value) => GameSettings.Settings.Volume = value);
-            _maxBotsCountSlider.onValueChanged.AddListener((float value) => GameSettings.Settings.MaxBotsCount = (int)value);
+            _botHealthSlider.onValueChanged.AddListener(value => GameSettings.Settings.BotHealth = (int)value);
+            _playerHealthSlider.onValueChanged.AddListener(value => GameSettings.Settings.PlayerHealth = (int)value);
+            _soundVolumeSlider.onValueChanged.AddListener(value => GameSettings.Settings.Volume = value);
+            _maxBotsCountSlider.onValueChanged.AddListener(value => GameSettings.Settings.MaxBotsCount = (int)value);
 
             _quitFromSettings.onClick.AddListener(() => gameObject.SetActive(false));
         }
+
         private void FixedUpdate()
         {
             _botHealthText.text = _botHealthSlider.value.ToString();

@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8130d41aca3343347b394980cb32817b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 0}
+  _projectilePrefab: {fileID: 3470296379726089132, guid: 8b347c1d1f5283c47949e4371c18cdb7, type: 3}
   _fireDelay: 0.25
   _side: 1
 --- !u!114 &288318712891576808
@@ -261,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c49fc3f2861f434c9dd68a40a68b880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startHealth: 1
 --- !u!58 &8941529876650316025
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -311,6 +312,8 @@ MonoBehaviour:
   _timeForGodMode: 3
   _spawnPoint: {fileID: 0}
   _blinkingDelay: 0.05
+  _active: Disable GodMode
+  _notActive: Enable GodMode
 --- !u!114 &9143896933628601548
 MonoBehaviour:
   m_ObjectHideFlags: 0

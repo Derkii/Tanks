@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Components;
-using Components.Health;
 using Cysharp.Threading.Tasks;
 using Game.Settings;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using Random = UnityEngine.Random;
 
 namespace Bot
 {
@@ -18,21 +15,56 @@ namespace Bot
         [SerializeField] private float _delayBetweenSpawn;
         [SerializeField] private int _maxCountOfBotsOnMap = 100;
 
-        [SerializeField]
-        private float _minNecessaryDistanceFromSpawnPointToBotToSpawn;
+        [SerializeField] private float _minNecessaryDistanceFromSpawnPointToBotToSpawn;
 
         [SerializeField] private List<Transform> _spawnPoints = new();
-        private int _currentCountOfBotsOnMap => AllCreatedBots.Count;
-        private float _spawnTimer;
 
         [SerializeField]
         private bool _drawGizmoz, _drawMinNecessaryDistanceFromSpawnPointToTanksToSpawnNewTank, _drawSpawnPoint;
 
-        private Transform _currentSpawnPoint;
-        private int _startBotsHealth;
-        public List<BotComponent> AllCreatedBots { get; } = new();
         private CancellationTokenSource _cancellationToken;
+
+        private Transform _currentSpawnPoint;
         [Inject] private IObjectResolver _resolver;
+        private float _spawnTimer;
+        private int _startBotsHealth;
+        private int _currentCountOfBotsOnMap => AllCreatedBots.Count;
+        public List<BotComponent> AllCreatedBots { get; } = new();
+
+        private void Start()
+        {
+            _startBotsHealth = GameSettings.Settings.BotHealth;
+            AllCreatedBots.AddRange(FindObjectsOfType<BotComponent>());
+            _cancellationToken = new CancellationTokenSource();
+            _spawnTimer = _delayBetweenSpawn;
+        }
+
+        private void Update()
+        {
+            _spawnTimer -= Time.deltaTime;
+        }
+
+        private void FixedUpdate()
+        {
+            AllCreatedBots.RemoveAll(t => t == null);
+        }
+
+        private void OnEnable()
+        {
+            _cancellationToken = new CancellationTokenSource();
+            Spawn();
+        }
+
+        private void OnDisable()
+        {
+            _cancellationToken.Cancel();
+        }
+
+        private void OnDestroy()
+        {
+            _cancellationToken.Cancel();
+        }
+
         private void OnDrawGizmos()
         {
             if (!_drawGizmoz) return;
@@ -68,20 +100,6 @@ namespace Bot
             }
         }
 
-        private void Start()
-        {
-            _startBotsHealth = (int)GameSettings.Settings.BotHealth;
-            AllCreatedBots.AddRange(FindObjectsOfType<BotComponent>());
-            _cancellationToken = new CancellationTokenSource();
-            _spawnTimer = _delayBetweenSpawn;
-        }
-
-        private void OnEnable()
-        {
-            _cancellationToken = new CancellationTokenSource();
-            Spawn();
-        }
-
         private async UniTaskVoid Spawn()
         {
             while (true)
@@ -90,7 +108,7 @@ namespace Bot
 
                 var spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count)];
                 if (_currentCountOfBotsOnMap < _maxCountOfBotsOnMap &&
-                    (NearestBotFromSpawn(out float distance, spawnPoint) == null ||
+                    (NearestBotFromSpawn(out var distance, spawnPoint) == null ||
                      distance > _minNecessaryDistanceFromSpawnPointToBotToSpawn)
                     && _spawnTimer <= 0f)
                 {
@@ -105,26 +123,6 @@ namespace Bot
 
                 await UniTask.Yield();
             }
-        }
-
-        private void OnDisable()
-        {
-            _cancellationToken.Cancel();
-        }
-
-        private void OnDestroy()
-        {
-            _cancellationToken.Cancel();
-        }
-
-        private void Update()
-        {
-            _spawnTimer -= Time.deltaTime;
-        }
-
-        private void FixedUpdate()
-        {
-            AllCreatedBots.RemoveAll(t => t == null);
         }
 
         private BotComponent NearestBotFromSpawn(out float distance, Transform spawnPoint)

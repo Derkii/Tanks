@@ -1,13 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Components
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class MoveComponent : MonoBehaviour
     {
-        [SerializeField, Min(0.01f)]
-        private float _speed = 1f;
+        [SerializeField] [Min(0.01f)] private float _speed = 1f;
+
         private Rigidbody2D _rb;
 
         private void Awake()

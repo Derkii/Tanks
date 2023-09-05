@@ -14,28 +14,18 @@ namespace Bot
     {
         [SerializeField] private float _minTime, _maxTime;
         [SerializeField] private Transform _startPosition;
-        private DirectionType _dirType;
         public HealthComponent Health;
+        private DirectionType _dirType;
         private FireComponent _fireComponent;
         private MoveComponent _moveComponent;
-        private Vector3 velocity;
         private bool _wait;
+        private Vector3 velocity;
 
         private void Start()
         {
             _fireComponent = GetComponent<FireComponent>();
             _moveComponent = GetComponent<MoveComponent>();
             Fire();
-        }
-
-        private async UniTaskVoid Fire()
-        {
-            while (true)
-            {
-                if (this.GetCancellationTokenOnDestroy().IsCancellationRequested) break;
-
-                await _fireComponent.Fire();
-            }
         }
 
         private void FixedUpdate()
@@ -47,14 +37,12 @@ namespace Bot
                 iteration++;
                 if (hit.transform.TryGetComponent(out CellComponent cellComponent))
                 {
-                    if (!cellComponent.IsDestroyableByProjectile)
-                    {
-                        ChangeDirection(Random.Range(_minTime, _maxTime));
-                    }
+                    if (!cellComponent.IsDestroyableByProjectile) ChangeDirection(Random.Range(_minTime, _maxTime));
 
                     break;
                 }
-                else if (
+
+                if (
                     hit.transform.TryGetComponent(out FrameOfTileMap _)
                     || hit.transform.TryGetComponent(out Water _)
                     || hit.transform.TryGetComponent(out Player _)
@@ -67,6 +55,17 @@ namespace Bot
 
             _moveComponent.Move(_dirType);
         }
+
+        private async UniTaskVoid Fire()
+        {
+            while (true)
+            {
+                if (this.GetCancellationTokenOnDestroy().IsCancellationRequested) break;
+
+                await _fireComponent.Fire();
+            }
+        }
+
         private async UniTask ChangeDirection(float delay)
         {
             if (_wait == false)

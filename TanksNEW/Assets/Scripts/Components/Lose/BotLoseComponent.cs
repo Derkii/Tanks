@@ -10,8 +10,8 @@ namespace Components.Lose
     public class BotLoseComponent : MonoBehaviour, ILosable
     {
         private BotComponent _botComponent;
-        [Inject]
-        private SoundManager _soundManager;
+
+        [Inject] private SoundManager _soundManager;
 
         private void Start()
         {
@@ -20,7 +20,8 @@ namespace Components.Lose
 
         public async UniTaskVoid Lose()
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(_soundManager.GetAudioLength(SoundManager.SoundType.DestroyBotTank)));
+            await UniTask.Delay(
+                TimeSpan.FromSeconds(_soundManager.GetAudioLength(SoundManager.SoundType.DestroyBotTank)));
             Destroy(_botComponent.gameObject);
         }
     }

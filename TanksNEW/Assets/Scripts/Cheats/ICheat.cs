@@ -1,9 +1,12 @@
-public interface ITurnableCheat
+namespace Cheats.Abstraction
 {
-    public void Turn(bool turn);
-}
+    public interface ITurnableCheat
+    {
+        public void Turn(bool turn);
+    }
 
-public interface IInitializableCheat<T>
-{
-    public void Init(T initParams);
+    public interface IInitializableCheat<T>
+    {
+        public void Init(T initParams);
+    }
 }

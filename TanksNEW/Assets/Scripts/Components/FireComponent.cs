@@ -1,9 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Lean.Pool;
 using Managers;
 using Projectile;
 using UnityEngine;
-using Lean.Pool;
 using VContainer;
 
 namespace Components
@@ -13,11 +13,11 @@ namespace Components
         [SerializeField] private ProjectileComponent _projectilePrefab;
         [SerializeField] private float _fireDelay;
         [SerializeField] private SideType _side;
-        public SideType Side => _side;
         private bool _canFire = true;
-        [Inject] private SoundManager _soundManager;
 
         [Inject] private IObjectResolver _resolver;
+        [Inject] private SoundManager _soundManager;
+        public SideType Side => _side;
 
         public async UniTask Fire(bool check = true)
         {

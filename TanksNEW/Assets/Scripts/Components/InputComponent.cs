@@ -8,16 +8,16 @@ namespace Components
     [RequireComponent(typeof(MoveComponent), typeof(FireComponent), typeof(Rigidbody2D))]
     public class InputComponent : MonoBehaviour
     {
-        [SerializeField]
-        private KeyCode _fireKey;
+        [SerializeField] private KeyCode _fireKey;
+
         [SerializeField] private InputAction _movement;
-        private FireComponent _fireComponent;
-        private MoveComponent _moveComponent;
-        private DirectionType _lastDir;
-        private DirectionType _currentDirection;
         private bool _collision;
-        [Inject]
-        private SoundManager _soundManager;
+        private DirectionType _currentDirection;
+        private FireComponent _fireComponent;
+        private DirectionType _lastDir;
+        private MoveComponent _moveComponent;
+
+        [Inject] private SoundManager _soundManager;
 
         private void Start()
         {
@@ -26,21 +26,9 @@ namespace Components
             _movement.Enable();
         }
 
-        private void FixedUpdate()
-        {
-            if (_collision)
-            {
-               _soundManager.Play(SoundManager.SoundType.PlayerTankCollisionWithBlock);
-            }
-            _moveComponent.Move(_currentDirection);
-        }
-
         private void Update()
         {
-            if (Input.GetKey(_fireKey))
-            {
-                _fireComponent.Fire();
-            }
+            if (Input.GetKey(_fireKey)) _fireComponent.Fire();
             var dir = _movement.ReadValue<Vector2>();
 
             if (dir.x != 0f && dir.y != 0f)
@@ -55,11 +43,19 @@ namespace Components
             {
                 _currentDirection = dir.ConvertDirectionFromType();
                 _lastDir = _currentDirection;
-                if (_collision == false)
-                {
-                    _soundManager.Play(SoundManager.SoundType.PlayerTankMoving);
-                }
+                if (_collision == false) _soundManager.Play(SoundManager.SoundType.PlayerTankMoving);
             }
+        }
+
+        private void FixedUpdate()
+        {
+            if (_collision) _soundManager.Play(SoundManager.SoundType.PlayerTankCollisionWithBlock);
+            _moveComponent.Move(_currentDirection);
+        }
+
+        private void OnDestroy()
+        {
+            _movement.Dispose();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -70,11 +66,6 @@ namespace Components
         private void OnCollisionExit2D(Collision2D other)
         {
             _collision = false;
-        }
-        
-        private void OnDestroy()
-        {
-            _movement.Dispose(); 
         }
     }
 }

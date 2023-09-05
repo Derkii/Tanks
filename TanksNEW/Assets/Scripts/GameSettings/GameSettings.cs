@@ -7,7 +7,7 @@ namespace Game.Settings
 {
     public static class GameSettings
     {
-        public static GameSettingsData Settings = new GameSettingsData();
+        public static GameSettingsData Settings = new();
 
         public static int GetStartHealth(Component component)
         {
@@ -15,6 +15,7 @@ namespace Game.Settings
                 component.TryGetComponent(out Player _) ? Settings.PlayerHealth : throw new NotImplementedException();
         }
     }
+
     [Serializable]
     public struct GameSettingsData
     {

@@ -1,8 +1,8 @@
 ﻿using Components;
 using Components.Health;
+using Lean.Pool;
 using Managers;
 using UnityEngine;
-using Lean.Pool;
 using VContainer;
 
 namespace Projectile
@@ -12,12 +12,12 @@ namespace Projectile
     {
         [SerializeField] private int _damage = 1;
         [SerializeField] private float _lifeTime = 3f;
-        private SideType _side;
         private Vector3 _direction;
 
         private MoveComponent _moveComponent;
-        [Inject]
-        private SoundManager _soundManager;
+        private SideType _side;
+
+        [Inject] private SoundManager _soundManager;
 
         private void Start()
         {
@@ -28,12 +28,6 @@ namespace Projectile
         private void FixedUpdate()
         {
             _moveComponent.Move(_direction);
-        }
-
-        public void Init(DirectionType directionType, SideType side)
-        {
-            _side = side;
-            _direction = directionType.ConvertTypeToDirection();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -52,15 +46,8 @@ namespace Projectile
             {
                 _soundManager.Play(SoundManager.SoundType.ProjectileCollision);
 
-                if (cellComponent.DestroyProjectile)
-                {
-                    if (LeanPool.Links.ContainsKey(this.gameObject))
-                        LeanPool.Despawn(this);
-                }
-                if (cellComponent.IsDestroyableByProjectile)
-                {
-                    Destroy(cellComponent.gameObject);
-                }
+                if (cellComponent.DestroyProjectile) LeanPool.Despawn(this);
+                if (cellComponent.IsDestroyableByProjectile) Destroy(cellComponent.gameObject);
             }
 
             else if (collision.transform.TryGetComponent(out FrameOfTileMap _))
@@ -68,6 +55,12 @@ namespace Projectile
                 _soundManager.Play(SoundManager.SoundType.ProjectileCollision);
                 LeanPool.Despawn(this);
             }
+        }
+
+        public void Init(DirectionType directionType, SideType side)
+        {
+            _side = side;
+            _direction = directionType.ConvertTypeToDirection();
         }
     }
 }

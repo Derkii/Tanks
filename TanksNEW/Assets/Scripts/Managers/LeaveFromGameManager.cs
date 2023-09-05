@@ -7,12 +7,14 @@ namespace Managers
 {
     public class LeaveFromGameManager : MonoBehaviour
     {
-        [SerializeField]
-        private float _timeToExitToPauseGameMenu;
-        private float _timer;
         private static LeaveFromGameManager _instance;
+
+        [SerializeField] private float _timeToExitToPauseGameMenu;
+
         private bool _isLeft;
         [Inject] private SoundManager _soundManager;
+        private float _timer;
+
         private void Start()
         {
             _timer = _timeToExitToPauseGameMenu;
@@ -22,23 +24,14 @@ namespace Managers
         private void Update()
         {
             if (_isLeft) return;
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                _soundManager.Play(SoundManager.SoundType.PressESC);
-            }
+            if (Input.GetKeyDown(KeyCode.Escape)) _soundManager.Play(SoundManager.SoundType.PressESC);
             if (Input.GetKey(KeyCode.Escape))
-            {
                 _timer -= Time.deltaTime;
-            }
             else
-            {
                 _timer = _timeToExitToPauseGameMenu;
-            }
-            if (_timer <= 0f)
-            {
-                _soundManager.StartCoroutine(QuitCoroutine());
-            }
+            if (_timer <= 0f) _soundManager.StartCoroutine(QuitCoroutine());
         }
+
         private IEnumerator QuitCoroutine()
         {
             _instance._isLeft = true;
